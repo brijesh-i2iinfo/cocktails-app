@@ -1,50 +1,61 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react-hooks/exhaustive-deps */ /* eslint-disable prettier/prettier */
-import React from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */ /* eslint-disable react-hooks/exhaustive-deps */ /* eslint-disable prettier/prettier */
+import React, {useEffect, useState} from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {Button, Card} from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import {cocktails} from '../utils/cocktails';
 import SearchbarHeader from './searchbarHeader';
 
-function Home() {
+function Home({navigation}) {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    // console.log('searchTerm', searchTerm);
+  }, [searchTerm]);
+
   return (
     <>
       <View>
-        <SearchbarHeader />
-        <ScrollView>
-          <View style={styles.container}>
-            <FlatList
-              data={cocktails}
-              renderItem={({item}) => (
-                <View style={{flex: 1, flexDirection: 'column', margin: 5}}>
-                  <Card elevation={2}>
-                    <Card.Cover source={{uri: item.strDrinkThumb}} />
-                    <View style={styles.all_items}>
-                      <Text style={styles.drink_item}>{item.strDrink}</Text>
-                      <Text style={styles.glass_item}>{item.strGlass}</Text>
-                      <Text style={styles.alco_item}>{item.strAlcoholic}</Text>
-                      <Button
-                        style={styles.details_btn}
-                        mode="contained"
-                        onPress={() => console.log('Pressed')}>
-                        Details
-                      </Button>
-                    </View>
-                  </Card>
-                </View>
-              )}
-              numColumns={2}
-              keyExtractor={(item, index) => index}
-            />
-          </View>
-        </ScrollView>
+        <SearchbarHeader
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
+        <View style={[styles.container]}>
+          <FlatList
+            data={cocktails}
+            renderItem={({item}) => (
+              <View style={{flex: 1, flexDirection: 'column', margin: 5}}>
+                <Card elevation={2}>
+                  <Card.Cover source={{uri: item.strDrinkThumb}} />
+                  <View style={styles.all_items}>
+                    <Text style={styles.drink_item}>{item.strDrink}</Text>
+                    <Text style={styles.glass_item}>{item.strGlass}</Text>
+                    <Text style={styles.alco_item}>{item.strAlcoholic}</Text>
+                    <Pressable
+                      style={styles.back_btn}
+                      onPress={idDrink => {
+                        navigation.navigate('ItemsDetails', {
+                          itemId: item.idDrink,
+                        });
+                      }}>
+                      <Text style={styles.btn_text}>Details</Text>
+                    </Pressable>
+                  </View>
+                </Card>
+              </View>
+            )}
+            numColumns={2}
+            keyExtractor={item => item.idDrink}
+          />
+        </View>
+        {/* </ScrollView> */}
       </View>
     </>
   );
 }
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
     marginTop: 30,
   },
   all_items: {
@@ -68,11 +79,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '300',
   },
-  details_btn: {
+  back_btn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 5,
+    borderRadius: 4,
+    elevation: 3,
     backgroundColor: '#476a2e',
+  },
+  btn_text: {
     fontSize: 13,
+    lineHeight: 21,
     letterSpacing: 2,
-    padding: 4,
+    color: 'white',
   },
 });
 export default Home;

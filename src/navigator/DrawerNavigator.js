@@ -5,11 +5,12 @@ import {useWindowDimensions} from 'react-native';
 import {StyleSheet, Text, View} from 'react-native';
 import Home from '../screens/Home';
 import About from '../screens/About';
+import ItemsDetails from '../screens/itemDetails';
 
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigator = () => {
-  //To show permanent drawer when screen is rotated
+  // To show permanent drawer when screen is rotated
   const {width, height} = useWindowDimensions();
 
   return (
@@ -31,12 +32,16 @@ export const DrawerNavigator = () => {
             options={{title: 'About'}}
             component={About}
           />
+          <Drawer.Screen
+            name="ItemsDetails"
+            component={ItemsDetails}
+            // options={{title: 'ItemsDetails'}}
+          />
         </Drawer.Navigator>
       </View>
       {/* <View style={{flex: 1}}>
         <Text>Hello</Text>
-      </View>
-      <View style={{flex: 1, backgroundColor: 'green'}} /> */}
+      </View> */}
     </View>
   );
 };

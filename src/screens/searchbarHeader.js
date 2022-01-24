@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
 
-function SearchbarHeader() {
-  const [searchTerm, setSearchTerm] = useState('');
-
+function SearchbarHeader({searchTerm, setSearchTerm}) {
   // console.log(searchTerm);
+  useEffect(() => {
+    console.log(searchTerm);
+  }, [searchTerm]);
 
   return (
     <>

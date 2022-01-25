@@ -34,9 +34,15 @@ function Home({navigation}) {
                     <Pressable
                       style={styles.back_btn}
                       onPress={idDrink => {
-                        navigation.navigate('ItemsDetails', {
-                          itemId: item.idDrink,
+                        navigation.navigate('MainPage', {
+                          screen: 'ItemsDetails',
+                          params: {
+                            itemId: item.idDrink,
+                          },
                         });
+                        // navigation.navigate('ItemsDetails', {
+                        //   itemId: item.idDrink,
+                        // });
                       }}>
                       <Text style={styles.btn_text}>Details</Text>
                     </Pressable>

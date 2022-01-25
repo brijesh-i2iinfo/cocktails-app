@@ -27,9 +27,9 @@ function ItemsDetails({route, navigation}) {
           <Text style={styles.btn_text}>Back Home</Text>
         </Pressable>
 
-        {data?.map(item => {
+        {data?.map((item, index) => {
           return (
-            <View style={styles.item_container}>
+            <View style={styles.item_container} key={index}>
               <Text style={styles.title_drink}>{item.strDrink}</Text>
               <View>
                 <Image
@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     color: '#476a2e',
     backgroundColor: '#d4e6a5',
     padding: 3,
+    alignSelf: 'flex-start',
     borderRadius: 3,
   },
   item_subTitle: {

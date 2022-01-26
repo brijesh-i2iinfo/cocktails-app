@@ -16,10 +16,10 @@ function Home({navigation}) {
   return (
     <>
       <View>
-        <SearchbarHeader
+        {/* <SearchbarHeader
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-        />
+        /> */}
         <View style={[styles.container]}>
           <FlatList
             data={cocktails}

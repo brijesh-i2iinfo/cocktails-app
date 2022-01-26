@@ -1,13 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {TouchableOpacity, useWindowDimensions} from 'react-native';
-import {StyleSheet, Text, View} from 'react-native';
-import Home from '../screens/Home';
+import {useWindowDimensions} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import About from '../screens/About';
-import ItemsDetails from '../screens/itemDetails';
 import StackNavigator from './StackNavigator';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
+import CustomNavigationBar from '../components/CustomNavigationBar';
 
 const Drawer = createDrawerNavigator();
 
@@ -23,6 +21,7 @@ export const DrawerNavigator = () => {
             drawerType: width >= height ? 'permanent' : 'front',
             drawerPosition: 'left',
             headerShown: 10,
+            header: props => <CustomNavigationBar {...props} />,
           }}>
           <Drawer.Screen
             name="MainPage"
@@ -35,22 +34,8 @@ export const DrawerNavigator = () => {
             options={{title: 'About'}}
             component={About}
           />
-          {/* <Drawer.Screen
-            name="ItemsDetails"
-            component={ItemsDetails}
-            options={{
-              drawerLabel: () => null,
-              title: null,
-              drawerHideStatusBarOnOpen: false,
-              drawerIcon: () => null,
-            }}
-            // options={{title: 'ItemsDetails'}}
-          /> */}
         </Drawer.Navigator>
       </View>
-      {/* <View style={{flex: 1}}>
-        <Text>Hello</Text>
-      </View> */}
     </View>
   );
 };

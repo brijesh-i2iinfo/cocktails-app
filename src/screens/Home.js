@@ -3,26 +3,44 @@ import React, {useEffect, useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {Card} from 'react-native-paper';
-import {cocktails} from '../utils/cocktails';
-import SearchbarHeader from './searchbarHeader';
+import {useDispatch, useSelector} from 'react-redux';
+import {fatchProducts} from '../Redux/productSlice';
 
 function Home({navigation}) {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [SearchResults, setSearchResults] = useState('');
+  const [Data, setData] = useState({});
+
+  const products = useSelector(state => state.products);
+  const searchValue = useSelector(state => state.search);
 
   useEffect(() => {
-    // console.log('searchTerm', searchTerm);
-  }, [searchTerm]);
+    setData(products);
+  }, [products]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fatchProducts());
+  }, []);
+
+  useEffect(() => {
+    const {search} = searchValue;
+    try {
+      const results = Data.products.filter(item => {
+        return item.strDrink?.toLowerCase().includes(search.toLowerCase());
+      });
+      setSearchResults(results);
+    } catch (error) {
+      console.log('error');
+    }
+  }, [Data, searchValue]);
 
   return (
     <>
       <View>
-        {/* <SearchbarHeader
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-        /> */}
         <View style={[styles.container]}>
           <FlatList
-            data={cocktails}
+            data={SearchResults}
             renderItem={({item}) => (
               <View style={{flex: 1, flexDirection: 'column', margin: 5}}>
                 <Card elevation={2}>
@@ -33,16 +51,13 @@ function Home({navigation}) {
                     <Text style={styles.alco_item}>{item.strAlcoholic}</Text>
                     <Pressable
                       style={styles.back_btn}
-                      onPress={idDrink => {
+                      onPress={() => {
                         navigation.navigate('MainPage', {
                           screen: 'ItemsDetails',
                           params: {
                             itemId: item.idDrink,
                           },
                         });
-                        // navigation.navigate('ItemsDetails', {
-                        //   itemId: item.idDrink,
-                        // });
                       }}>
                       <Text style={styles.btn_text}>Details</Text>
                     </Pressable>
